@@ -13,6 +13,8 @@ a {
 
 h1 {
 	text-align:center;
+	font-style:arial;
+	font-size:28px;
 }
 
 .initially-invisible {
