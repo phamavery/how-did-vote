@@ -1,18 +1,12 @@
 const data = require('./senators.json');
-function getState() {
-	var myState = index.getElementById("selectstate").value;
-}
+let myState;
+document.getElementById("selectstate").addEventListener("change", function (e) {
+	console.log(e);  
+	myState = e.target.value;
+});
+let myChamber;
+document.getElementById("selectchamber").addEventListener("change", function (e) {
+	console.log(e);
+	myState = e.target.value;
+});
 
-function getChamber() {
-	var myChamber = index.getElementById('selectchamber').value;
-}
-
-function getDistrict() {
-	var myDistrict = index.getElementById('selectdistrict').value;
-}
-
-function getSenator() {
-	var mySenator = index.getElementById('selectsenator').value;
-}
-getState();
-console.log(myState);

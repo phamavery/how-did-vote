@@ -10,3 +10,11 @@ body {
 a {
 	color: blue;
 }
+
+h1 {
+	text-align:center;
+}
+
+.initially-invisible {
+	display:none;
+}

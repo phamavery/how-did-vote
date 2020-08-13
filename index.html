@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-	<center>How Did ___ Vote?</center>
+	<h1>How Did ___ Vote?</h1>
 	<p>Search for how a member of Congress voted in recent legislation. 
 	Don't know your district number? Click <a href="https://www.house.gov/representatives/find-your-representative" target="_blank"> here </a><p>
 		Note: The following states only have one (1) congressional district
@@ -75,23 +75,26 @@
 			<option value="WI">Wisconsin</option>
 			<option value="WY">Wyoming</option>
 		</select>
+		
 		Chamber
 		<select id="selectchamber" name="chamber">
 			<option value="blankchoice"></option>
 			<option value="house">House of Representatives</option>
 			<option value="senate">Senate</option>
 		</select>
+		<span id="district" class="initially-invisible">
 		District
 		<select id="selectdistrict" name="district">
 			<option value="blankchoice"></option>
 		</select>
+		</span>
+		<span id="senator" class="initially-invisible">
 		Senator
 		<select id="selectsenator" name="senator">
 			<option value="blankchoice"></option>
 		</select>
+		</span>
 	</p>
 	<script src="idk.js"></script> 
-	<script src="districts.json"></script>
-	<script src="senators.json"></script>
 </body>
 </html>
