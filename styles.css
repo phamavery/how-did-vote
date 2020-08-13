@@ -18,3 +18,7 @@ h1 {
 .initially-invisible {
 	display:none;
 }
+
+.inline-display {
+	display:inline;
+}
