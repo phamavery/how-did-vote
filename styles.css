@@ -3,7 +3,7 @@
 }
 
 body {
-	font-style:arial;
+	font-style:"lucida console";
 	font-size:20px;
 }
 
@@ -13,7 +13,7 @@ a {
 
 h1 {
 	text-align:center;
-	font-style:arial;
+	font-style:"lucida console";
 	font-size:28px;
 }
 
@@ -23,4 +23,19 @@ h1 {
 
 .inline-display {
 	display:inline;
+}
+
+.intro {
+	font-size:20px;
+	background-color: lightblue;
+	padding-left:5px;
+	padding-top:5px;
+	padding-bottom:5px;
+	border-style:solid;
+	border-color:blue;
+	border-width:5px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: solid;
 }
