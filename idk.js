@@ -49,24 +49,73 @@ function search() {
 	.then(response => response.json())
 	.then(data => {
 		 if(myChamber == "house") {
-			var memberId = data.results[0].id
-			var voteUrl = 'https://api.propublica.org/congress/v1/members/' + memberId + '/votes.json'
+			var voteUrl = getVoteUrl(data.results[0].id)
 		 	fetch(voteUrl, {
 		 		method: 'GET',
 		 		headers: myHeader
 		 	})
 		 	.then(resp => resp.json())
-		 	.then(data2 => {
-		 		for(const{description, position} of data2.results[0].votes){
-					 console.log({description, position})
-				 }
+		 	.then(dataH => {
+				const voteData = []
+				for(i = 0 ; i < dataH.results[0].votes.length ; i++) {
+					var description = dataH.results[0].votes[i].description
+					var position = dataH.results[0].votes[i].position
+					var billId = dataH.results[0].votes[i].bill.bill_id 
+					var billTitle = dataH.results[0].votes[i].bill.title
+					voteData.push({description, position, billId, billTitle})
+				}
+				console.log(voteData)
 		 	})
 		 }
 		 else {
-
+			var whichSen = whichSenator(mySenator, data);
+			var voteUrl = getVoteUrl(whichSen)
+			fetch(voteUrl, {
+				method: 'GET',
+				headers: myHeader
+			})
+			.then(respS => respS.json())
+			.then(dataS => {
+				const voteData = []
+				for(i = 0 ; i < dataS.results[0].votes.length ; i++) {
+					var description = dataS.results[0].votes[i].description
+					var position = dataS.results[0].votes[i].position
+					var billId = dataS.results[0].votes[i].bill.bill_id 
+					var billTitle = dataS.results[0].votes[i].bill.title
+					voteData.push({description, position, billId, billTitle})
+				}
+				console.log(voteData)
+			})
 		 }
 		
 	})
 
 
+}
+
+// Finds which senator was selected and returns the member id for that senator
+function whichSenator(name, data) {
+	var nameSplit = name.split(" ")
+	// No middle name or any of that other shit
+	if(nameSplit.length == 2) {
+		if(nameSplit[0] == data.results[0].first_name && nameSplit[1] == data.results[0].last_name){
+			return data.results[0].id;
+		}
+		else {
+			return data.results[1].id;
+		}
+	}
+	// Middle name. Just ignore it
+	if(nameSplit.length > 2) {
+		if(nameSplit[0] == data.results[0].first_name && nameSplit[2] == data.results[0].last_name){
+			return data.results[0].id;
+		}
+		else {
+			return data.results[1].id;
+		}
+	}
+}
+
+function getVoteUrl(memberId)  {
+	return 'https://api.propublica.org/congress/v1/members/' + memberId + '/votes.json'
 }
