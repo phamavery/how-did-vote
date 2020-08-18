@@ -19,23 +19,54 @@ document.getElementById("selectchamber").addEventListener("change", function (e)
 		document.getElementById("senator").className = "initially-invisible";
 	}
 });
+
+let mySenator;
+document.getElementById("selectsenator").addEventListener("change", function (e) {
+	mySenator = e.target.value;
+});
+
+let myDistrict = 1;
+document.getElementById("selectdistrict").addEventListener("change", function (e) {
+	myDistrict = e.target.value;
+});
+
 const congressNumber = 116;
-var whatToFetch = 'https://api.propublica.org/congress/v1/' + congressNumber + '/' + myChamber + '/members.json';
+
 function search() {
-	fetch(whatToFetch, {
-	headers: {
-		'X-API-Key': 'API-KEY',
-	},
+	var myHeader = new Headers();
+	myHeader.append('Content-Type','application/json');
+	myHeader.append('X-API-Key','API-KEY');
+	if(myChamber == "house") {
+		var url = 'https://api.propublica.org/congress/v1/members/house/' + myState + '/' + myDistrict + '/current.json';
+	} else {
+		var url = 'https://api.propublica.org/congress/v1/members/senate/' + myState + '/current.json';
+	}
+	
+	fetch(url, {
+		method: 'GET', 
+		headers: myHeader
 	})
 	.then(response => response.json())
 	.then(data => {
-	var names = [];
-	for(const {first_name, last_name} of data.results.members){
-		names.append({first_name,last_name});
-	}
+		 if(myChamber == "house") {
+			var memberId = data.results[0].id
+			var voteUrl = 'https://api.propublica.org/congress/v1/members/' + memberId + '/votes.json'
+		 	fetch(voteUrl, {
+		 		method: 'GET',
+		 		headers: myHeader
+		 	})
+		 	.then(resp => resp.json())
+		 	.then(data2 => {
+		 		for(const{description, position} of data2.results[0].votes){
+					 console.log({description, position})
+				 }
+		 	})
+		 }
+		 else {
+
+		 }
+		
 	})
-	.catch((error) => {
-	console.error('Error:', error);
-	});
+
 
 }
