@@ -9,7 +9,7 @@
 <body>
 	<h1>How Did ___ Vote?</h1>
 	<div class="intro">
-	<p>Congress is a very unpopular institution among Americans. Year after year, when <a href="https://news.gallup.com/poll/1600/congress-public.aspx">polled</a>, the majority
+	<p>Congress is a very unpopular institution among Americans. Year after year, when <a href="https://news.gallup.com/poll/1600/congress-public.aspx" target="_blank">polled</a>, the majority
 		of Americans consistently disapprove of Congress. In an era of increasing partianship and political polarization,
 		it is important to stay informed on politics and to form your own opinions. Too often people let their political opinions
 		be formed by those around them without doing their own research. The goal of this website is to help you be able to easily search
@@ -22,7 +22,7 @@
 	<br><br>
 	<p>
 		State
-		<select id="selectstate" name="state">
+		<select id="selectstate" name="state" autocomplete="off">
 			<option value="blankchoice"></option>
 			<option value="AL">Alabama</option>
 			<option value="AK">Alaska</option>
@@ -77,26 +77,43 @@
 		</select>
 		
 		Chamber
-		<select id="selectchamber" name="chamber">
+		<select id="selectchamber" name="chamber" autocomplete="off">
 			<option value="blankchoice"></option>
 			<option value="house">House of Representatives</option>
 			<option value="senate">Senate</option>
 		</select>
 		<span id="district" class="initially-invisible">
 		District
-		<select id="selectdistrict" name="district">
+		<select id="selectdistrict" name="district" autocomplete="off">
 			<option value="blankchoice"></option>
 		</select>
 		<button type="button" onclick="search();">Search</button>
 		</span>
 		<span id="senator" class="initially-invisible">
 		Senator
-		<select id="selectsenator" name="senator">
+		<select id="selectsenator" name="senator" autocomplete="off">
 			<option value="blankchoice"></option>
 		</select>
 		<button type="button" onclick="search();">Search</button>
 		</span>
+		<br>
 	</p>
+	<br><br>
+	<div id="repname">
+		
+	</div>
+	<br>
+	<table id="myTable" class="table">
+		<tr>
+			<th>Bill title/description</th>
+			<th>Date</th>
+			<th>Position</th>
+		</tr>
+		<tbody id="tableBody">
+
+		</tbody>
+	</table>
+
 	<script src="idk.js"></script> 
 	<script src="jquery-3.5.1.min.js"></script>
 	<script>
@@ -260,6 +277,7 @@
 					}
 					var $selectsenator = $(selectsenator);
 					$selectsenator.empty();
+					$selectsenator.append("<option value=\"blankchoice\"></option>");
 					$.each(senators,function(index, value){
 						$selectsenator.append("<option>" + value + "</option>");
 					});
@@ -422,6 +440,7 @@
 					}
 					var $selectdistrict = $(selectdistrict);
 					$selectdistrict.empty();
+					$selectdistrict.append("<option value=\"blankchoice\"></option>");
 					$.each(districts,function(index, value){
 						$selectdistrict.append("<option>" + value + "</option>");
 					});
