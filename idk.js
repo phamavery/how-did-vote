@@ -48,45 +48,54 @@ function search() {
 	})
 	.then(response => response.json())
 	.then(data => {
+		var offsetCount = 5; // Increase to show more votes
 		 if(myChamber == "house") {
-			var voteUrl = getVoteUrl(data.results[0].id)
-		 	fetch(voteUrl, {
-		 		method: 'GET',
-		 		headers: myHeader
-		 	})
-		 	.then(resp => resp.json())
-		 	.then(dataH => {
-				const voteData = []
-				for(i = 0 ; i < dataH.results[0].votes.length ; i++) {
-					var description = dataH.results[0].votes[i].description
-					var position = dataH.results[0].votes[i].position
-					var billId = dataH.results[0].votes[i].bill.bill_id 
-					var billTitle = dataH.results[0].votes[i].bill.title
-					voteData.push({description, position, billId, billTitle})
-				}
-				console.log(voteData)
-		 	})
+			document.getElementById('repname').innerHTML = '<p>' + data.results[0].name + '\'s voting record is: </p>';
+			for(i = 0; i < offsetCount; i++) {
+				var voteUrl = getVoteUrl(data.results[0].id, i*20)
+				fetch(voteUrl, {
+					method: 'GET',
+					headers: myHeader
+				})
+				.then(resp => resp.json())
+				.then(dataH => {
+					const voteData = []
+					for(i = 0 ; i < dataH.results[0].votes.length ; i++) {
+						var description = dataH.results[0].votes[i].description
+						var billTitle = dataH.results[0].votes[i].bill.title
+						var date = dataH.results[0].votes[i].date
+						var position = dataH.results[0].votes[i].position
+						voteData.push({description, billTitle, date, position})
+					}
+					createTable(voteData)
+				})
+			}
+			
 		 }
 		 else {
 			var whichSen = whichSenator(mySenator, data);
-			var voteUrl = getVoteUrl(whichSen)
-			fetch(voteUrl, {
-				method: 'GET',
-				headers: myHeader
-			})
-			.then(respS => respS.json())
-			.then(dataS => {
-				const voteData = []
-				for(i = 0 ; i < dataS.results[0].votes.length ; i++) {
-					var description = dataS.results[0].votes[i].description
-					var position = dataS.results[0].votes[i].position
-					var billId = dataS.results[0].votes[i].bill.bill_id 
-					var billTitle = dataS.results[0].votes[i].bill.title
-					voteData.push({description, position, billId, billTitle})
-				}
-				console.log(voteData)
-			})
-		 }
+			document.getElementById('repname').innerHTML = '<p>' + data.results[0].name + '\'s voting record is: </p>';
+			for(i = 0 ; i < offsetCount; i++) {
+				var voteUrl = getVoteUrl(whichSen, i*20)
+				fetch(voteUrl, {
+					method: 'GET',
+					headers: myHeader
+				})
+				.then(respS => respS.json())
+				.then(dataS => {
+					const voteData = []
+					for(i = 0 ; i < dataS.results[0].votes.length ; i++) {
+						var description = dataS.results[0].votes[i].description
+						var billTitle = dataS.results[0].votes[i].bill.title
+						var date = dataS.results[0].votes[i].date
+						var position = dataS.results[0].votes[i].position
+						voteData.push({description, billTitle, date, position})
+					}
+					createTable(voteData)
+				})
+			}
+			}
+			
 		
 	})
 
@@ -116,6 +125,19 @@ function whichSenator(name, data) {
 	}
 }
 
-function getVoteUrl(memberId)  {
-	return 'https://api.propublica.org/congress/v1/members/' + memberId + '/votes.json'
+function getVoteUrl(memberId, offset = 0)  {
+	return 'https://api.propublica.org/congress/v1/members/' + memberId + '/votes.json?offset=' + offset;
+}
+
+function createTable(data) {
+	var table = document.getElementById('tableBody');
+	document.getElementById('myTable').className = 'inline-display';
+	for(i = 0; i < data.length; i++) {
+		var row = `<tr>
+						<td>${data[i].billTitle}</td>
+						<td>${data[i].date}</td>
+						<td>${data[i].position}</td>
+				   </tr>`
+		table.innerHTML += row;
+	}
 }
