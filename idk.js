@@ -42,7 +42,7 @@ const congressNumber = 116;
 function search() {
 	var myHeader = new Headers();
 	myHeader.append('Content-Type','application/json');
-	myHeader.append('X-API-Key','API-KEY');
+	myHeader.append('X-API-Key','vtSRW1QTnN42yEcAzbI8AbUFfrVm8vQhvR5qYgOd');
 	if(myChamber == "house") {
 		var url = 'https://api.propublica.org/congress/v1/members/house/' + myState + '/' + myDistrict + '/current.json';
 	} else {
