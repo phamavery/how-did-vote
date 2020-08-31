@@ -103,7 +103,7 @@
 		
 	</div>
 	<br>
-	<table id="myTable" class="table">
+	<table id="myTable" class="table" class = "initially-invisible">
 		<tr>
 			<th>Bill title/description</th>
 			<th>Date</th>
@@ -120,11 +120,9 @@
 		$(function() {
 			$("#selectstate").change(function() {
 				var $dropdown = $(this);
-				$.getJSON("senators.json", function(data) {
+				$.getJSON("/senators.json", function(data) {
 					var key = $dropdown.val();
 					var senators = data[key];
-					
-					
 					var $selectsenator = $(selectsenator);
 					$selectsenator.empty();
 					$selectsenator.append("<option value=\"blankchoice\"></option>");
@@ -133,10 +131,9 @@
 					});
 				});
 				
-				$.getJSON("districts.json", function(data) {
+				$.getJSON("/districts.json", function(data) {
 					var key2 = $dropdown.val();
 					var districts = data[key2].split(",");
-					
 					var $selectdistrict = $(selectdistrict);
 					$selectdistrict.empty();
 					$selectdistrict.append("<option value=\"blankchoice\"></option>");

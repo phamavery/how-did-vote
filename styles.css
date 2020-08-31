@@ -1,5 +1,6 @@
 *{
 	margin:0;
+
 }
 
 body {
@@ -17,7 +18,7 @@ h1 {
 	font-size:28px;
 }
 
-.initially-invisible {
+.initially-invisible, .table {
 	display:none;
 }
 
@@ -38,4 +39,17 @@ h1 {
 	border-right-style: none;
 	border-bottom-style: none;
 	border-left-style: solid;
+}
+
+td,th {
+	border: 1px solid #0c0101;
+	text-align: left;
+}
+th {
+	background-color: lightgray;
+}
+table {
+	font-family: verdana;
+	border-collapse: collapse;
+	width: 100%;
 }
