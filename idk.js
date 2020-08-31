@@ -42,7 +42,13 @@ myHeader.append('X-API-Key','vtSRW1QTnN42yEcAzbI8AbUFfrVm8vQhvR5qYgOd');
 // HTML table of voting records. Displays voting records in
 // multiples of 20 which is adjustable in variable offsetCount
 function search() {
+<<<<<<< HEAD
 	// Get current members in selected district or state
+=======
+	var myHeader = new Headers();
+	myHeader.append('Content-Type','application/json');
+	myHeader.append('X-API-Key','vtSRW1QTnN42yEcAzbI8AbUFfrVm8vQhvR5qYgOd');
+>>>>>>> 91189bacae3a16319e9d35995aca74227b3c04e5
 	if(myChamber == "house") {
 		var url = 'https://api.propublica.org/congress/v1/members/house/' + myState + '/' + myDistrict + '/current.json';
 	} else {
