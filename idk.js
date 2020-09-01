@@ -42,6 +42,7 @@ myHeader.append('X-API-Key','vtSRW1QTnN42yEcAzbI8AbUFfrVm8vQhvR5qYgOd');
 // HTML table of voting records. Displays voting records in
 // multiples of 20 which is adjustable in variable offsetCount
 function search() {
+	document.getElementById("search").className = "initially-invisible"
 	// Get current members in selected district or state
 	var myHeader = new Headers();
 	myHeader.append('Content-Type','application/json');
@@ -117,7 +118,7 @@ function search() {
 }
 
 function printRepName(repname, party) {
-	document.getElementById('repname').innerHTML = '<p>' + repname + '\'s ('  + party + ') voting record is: </p>';
+	document.getElementById('repname').innerHTML = '<p class="repname">' + repname + '\'s ('  + party + ') voting record is: </p>';
 }
 // Finds which senator was selected and returns the member id for that senator and the index
 function whichSenator(name, data) {
