@@ -58,10 +58,10 @@ function search() {
 	})
 	.then(response => response.json())
 	.then(data => {
-		var offsetCount = 0; // Increase to show more votes
+		var offsetCount = 5; // Increase to show more votes
 		// Since there is only one rep to a district, no need to find the rep
 		 if(myChamber == "house") {
-			document.getElementById('repname').innerHTML = '<p>' + data.results[0].name + '\'s (' + data.results[0].party +') voting record is: </p>';
+			printRepName(data.results[0].name, data.results[0].party)
 			for(i = 0; i <= offsetCount; i++) {
 				var voteUrl = getVoteUrl(data.results[0].id, i*20)
 				fetch(voteUrl, {
@@ -87,7 +87,7 @@ function search() {
 		 else {
 			// 2 senators to a state, find which one user selected
 			var whichSen = whichSenator(mySenator, data);
-			document.getElementById('repname').innerHTML = '<p>' + data.results[whichSen[1]].name + '\'s (' + data.results[whichSen[1]].party + ') voting record is: </p>';
+			printRepName(data.results[whichSen[1]].name, data.results[whichSen[1]].party)
 			for(i = 0 ; i <= offsetCount; i++) {
 				var voteUrl = getVoteUrl(whichSen[0], i*20)
 				fetch(voteUrl, {
@@ -116,6 +116,9 @@ function search() {
 
 }
 
+function printRepName(repname, party) {
+	document.getElementById('repname').innerHTML = '<p>' + repname + '\'s ('  + party + ') voting record is: </p>';
+}
 // Finds which senator was selected and returns the member id for that senator and the index
 function whichSenator(name, data) {
 	var nameSplit = name.split(" ")
