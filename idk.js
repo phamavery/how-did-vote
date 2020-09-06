@@ -44,9 +44,6 @@ myHeader.append('X-API-Key','vtSRW1QTnN42yEcAzbI8AbUFfrVm8vQhvR5qYgOd');
 function search() {
 	document.getElementById("search").className = "initially-invisible"
 	// Get current members in selected district or state
-	var myHeader = new Headers();
-	myHeader.append('Content-Type','application/json');
-	myHeader.append('X-API-Key','vtSRW1QTnN42yEcAzbI8AbUFfrVm8vQhvR5qYgOd');
 	if(myChamber == "house") {
 		var url = 'https://api.propublica.org/congress/v1/members/house/' + myState + '/' + myDistrict + '/current.json';
 	} else {
@@ -71,14 +68,14 @@ function search() {
 				})
 				.then(resp => resp.json())
 				.then(dataH => {
+					//console.log(dataH)
 					const voteData = []
 					for(i = 0 ; i < dataH.results[0].votes.length ; i++) {
 						var description = dataH.results[0].votes[i].description
-						var billTitle = dataH.results[0].votes[i].bill.title
+						var billNumber = dataH.results[0].votes[i].bill.number
 						var date = dataH.results[0].votes[i].date
 						var position = dataH.results[0].votes[i].position
-						var voteUri = dataH.results[0].votes[i].vote_uri
-						voteData.push({description, billTitle, date, position, voteUri})
+						voteData.push({description, billNumber, date, position})
 					}
 					createTable(voteData)
 				})
@@ -98,13 +95,13 @@ function search() {
 				.then(respS => respS.json())
 				.then(dataS => {
 					const voteData = []
+					console.log(dataS)
 					for(i = 0 ; i < dataS.results[0].votes.length ; i++) {
 						var description = dataS.results[0].votes[i].description
-						var billTitle = dataS.results[0].votes[i].bill.title
+						var billNumber = dataS.results[0].votes[i].bill.number
 						var date = dataS.results[0].votes[i].date
 						var position = dataS.results[0].votes[i].position
-						var voteUri = dataS.results[0].votes[i].vote_uri
-						voteData.push({description, billTitle, date, position, voteUri})
+						voteData.push({description, billNumber, date, position})
 					}
 					createTable(voteData)
 				})
@@ -153,32 +150,17 @@ function getVoteUrl(memberId, offset = 0)  {
 // Creates HTML table
 function createTable(data) {
 	var table = document.getElementById('tableBody');
-	document.getElementById('myTable').className = 'inline-display';
-	console.log(data.length)
+	document.getElementById('myTable').className = 'block-display';
+	console.log(data)
 	for(i = 0; i < data.length; i++) {
-		const source = [];
-		fetch(data[i].voteUri,{
-			method: 'GET',
-			headers: myHeader
-		})
-		.then(respo => respo.json())
-		.then(data_vote => {
-			source.push(data_vote.results.votes.vote.url)
-		})
-		if(data[i].billTitle == null) {
-			var row = '<tr>' + 
-								'<td><a href=\"' + source +'\" target=\"_blank\">' + `${data[i].description}</a></td>
-								<td>${data[i].date}</td>
-								<td>${data[i].position}</td>
-						</tr>`
-		} else {
-			var row = `<tr> 
-								<td>${data[i].billTitle}</td>
-								<td>${data[i].date}</td>
-								<td>${data[i].position}</td>
-						</tr>`
-		}
+		var desc = data[i].description.substr(0,99) // shorten description
+		var row = '<tr>' + 
+							'<td>' + desc +  `     (${data[i].billNumber})</td>
+							<td>${data[i].date}</td>
+							<td>${data[i].position}</td>
+					</tr>`
 		table.innerHTML += row;
 	}
+		//table.innerHTML += row;
 }
 
